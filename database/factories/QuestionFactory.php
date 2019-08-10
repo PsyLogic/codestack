@@ -1,0 +1,16 @@
+<?php
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use App\Question;
+use Faker\Generator as Faker;
+
+$factory->define(Question::class, function (Faker $faker) {
+    return [
+        'title' => rtrim($faker->sentence()),
+        'body' => $faker->paragraph(rand(1,5)),
+        'views' => rand(0,100),
+        'answers' => rand(0,15),
+        'votes' => rand(-10,100),
+    ];
+});
