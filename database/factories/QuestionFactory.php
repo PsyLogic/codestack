@@ -9,8 +9,8 @@ $factory->define(Question::class, function (Faker $faker) {
     return [
         'title' => rtrim($faker->sentence(rand(2,3), ".")),
         'body' => $faker->paragraph(rand(1,5)),
-        'views' => rand(0,100),
-        'answers' => rand(0,15),
-        'votes' => rand(-10,100),
+        'views_count' => rand(0,100),
+        'answers_count' => rand(0,15),
+        'votes_count' => rand(-10,100),
     ];
 });

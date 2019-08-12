@@ -18,13 +18,13 @@
                         <div class="media">
                             <div class="d-flex flex-column counters">
                                 <div class="votes">
-                                <strong>{{ $question->votes }}</strong> {{ str_plural('vote', $question->votes) }}
+                                <strong>{{ $question->votes_count }}</strong> {{ str_plural('vote', $question->votes_count) }}
                                 </div>
                                 <div class="answers {{ $question->status }} mb-1">
-                                    <strong>{{ $question->answers }}</strong> {{ str_plural('answer', $question->answers) }}
+                                    <strong>{{ $question->answers_count }}</strong> {{ str_plural('answer', $question->answers_count) }}
                                 </div>
                                 <div class="views">
-                                    {{ $question->views }} {{ str_plural('view', $question->views) }}
+                                    {{ $question->views_count }} {{ str_plural('view', $question->views_count) }}
                                 </div>
                             </div>
                             <div class="media-body">
