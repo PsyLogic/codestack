@@ -16,12 +16,20 @@ class Question extends Model
     ];
 
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['user'];
+
+
     public function user(){
         return $this->belongsTo(User::class);
     }
 
     public function answers(){
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class, 'question_id');
     }
 
     public function setTitleAttribute($title){

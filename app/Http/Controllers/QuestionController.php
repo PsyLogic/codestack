@@ -11,7 +11,10 @@ class QuestionController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show']);
-        $this->authorizeResource(Question::class, 'question');
+        // Comment it since it will not work with custom route
+        // when fetching by slug / either make slug as primary key in model
+        // to make this work.
+        // $this->authorizeResource(Question::class, 'question');
     }
     /**
      * Display a listing of the resource.
@@ -20,7 +23,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        return view('questions.index',['questions' => Question::with('user')->latest()->paginate(5)]);
+        return view('questions.index',['questions' => Question::latest()->paginate(5)]);
     }
 
     /**
@@ -65,6 +68,7 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
+        $this->authorize('update',$question);
         return view('questions.edit', compact('question'));
     }
 
@@ -77,6 +81,7 @@ class QuestionController extends Controller
      */
     public function update(QuestionRequest $request, Question $question)
     {
+        $this->authorize('update',$question);
         $question->update($request->only('title','body'));
         return redirect()->route('questions.index')->with('success', 'Question updated successfully');
     }
@@ -89,6 +94,7 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
+        $this->authorize('delete',$question);
         $question->delete();
         return redirect()->route('questions.index')->with('success', 'Question deleted successfully');
     }
