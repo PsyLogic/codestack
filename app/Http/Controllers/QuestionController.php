@@ -8,6 +8,11 @@ use App\Http\Requests\QuestionRequest;
 
 class QuestionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+        $this->authorizeResource(Question::class, 'question');
+    }
     /**
      * Display a listing of the resource.
      *
