@@ -39,6 +39,9 @@ class AnswerController extends Controller
     public function edit(Question $question, Answer $answer)
     {
         $this->authorize('update', $answer);
+        if( $answer->id === $question->best_answer_id ){
+            return redirect()->route('questions.show',$question->slug)->with('error', 'You cannot modify the best answer');
+        }
         return view('answers.edit', compact('question','answer'));
     }
 
@@ -53,6 +56,9 @@ class AnswerController extends Controller
     public function update(Request $request, Question $question, Answer $answer)
     {
         $this->authorize('update', $answer);
+        if( $answer->id === $question->best_answer_id ){
+            return redirect()->route('questions.show',$question->slug)->with('error', 'You cannot modify the best answer');
+        }
         $answer->update($request->validate(['body' => 'required']));
         return redirect()->route('questions.show',$question->slug)->with('success', 'You answer has been updated successfully');
     }
@@ -67,6 +73,9 @@ class AnswerController extends Controller
     public function destroy(Question $question, Answer $answer)
     {
         $this->authorize('delete', $answer);
+        if( $answer->id === $question->best_answer_id ){
+            return redirect()->route('questions.show',$question->slug)->with('error', 'You cannot remove the best answer');
+        }
         $answer->delete();
         return redirect()->route('questions.show',$question->slug)->with('success', 'You answer has been deleted successfully');
     }

@@ -17,7 +17,7 @@
                             <a href="" class="vote-down off" title="This answer is not useful">
                                 <i class="fas fa-caret-down fa-2x"></i>
                             </a>
-                            <a href="" class="best-answer mt-2 " title="The question owner accepted this as the best answer">
+                            <a href="" class=" {{ $answer->status }} mt-2" title="The question owner accepted this as the best answer">
                                 <i class="fas fa-check fa-3x"></i>
                             </a>
                             
