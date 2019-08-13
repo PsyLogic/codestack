@@ -18,5 +18,5 @@
     @enderror
 </div>
 <div class="form-group">
-    <button class="btn btn-outline-primary">Create</button>
+    <button class="btn btn-outline-primary">{{ $buttonAction }}</button>
 </div>
