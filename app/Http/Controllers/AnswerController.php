@@ -46,6 +46,7 @@ class AnswerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Question  $question
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
@@ -60,10 +61,13 @@ class AnswerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Answer  $answer
+     * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Answer $answer)
+    public function destroy(Question $question, Answer $answer)
     {
-        //
+        $this->authorize('delete', $answer);
+        $answer->delete();
+        return redirect()->route('questions.show',$question->slug)->with('success', 'You answer has been deleted successfully');
     }
 }
