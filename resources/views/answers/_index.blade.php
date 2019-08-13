@@ -24,16 +24,30 @@
                         </div>
                         <div class="media-body">
                             {!! $answer->body_html !!}
-                            <div class="float-right">
-                                <span class="text-muted">Answered {{ $answer->create_date }}</span>
-                                <div class="media">
-                                    <a href="{{ $answer->user->url }}" class="pr-2">
-                                        <img src="{{ $answer->user->avatar }}" alt="{{ $answer->user->name }}">
-                                    </a>
-                                    <div class="media-body mt-1">
+                            <div class="d-flex">
+                                <div class="">
+                                    @can('update',$answer)
+                                    <a href="{{route('questions.answers.edit',compact('question', 'answer'))}}" class="btn btn-sm btn-outline-info">Edit</a>
+                                    @endcan
+                                    @can('delete',$answer)
+                                    <form style="display:inline;" onsubmit="return confirm('Are you sure ?')" action="{{route('questions.answers.destroy', compact('question', 'answer'))}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </form>
+                                    @endcan
+                                </div>
+                                <div class="ml-auto">
+                                    <span class="text-muted">Answered {{ $answer->create_date }}</span>
+                                    <div class="media">
                                         <a href="{{ $answer->user->url }}" class="pr-2">
-                                            {{ $answer->user->name }}
+                                            <img src="{{ $answer->user->avatar }}" alt="{{ $answer->user->name }}">
                                         </a>
+                                        <div class="media-body mt-1">
+                                            <a href="{{ $answer->user->url }}" class="pr-2">
+                                                {{ $answer->user->name }}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
