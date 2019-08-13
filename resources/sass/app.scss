@@ -7,34 +7,82 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-.counters{
+.counters {
     margin-right: 30px;
     font-size: 10px;
     text-align: center;
 
-    strong{
+    strong {
         font-size: 16px;
         display: block;
     }
-    .votes .answers{
+
+    .votes .answers {
         width: 60px;
         height: 60px;
     }
 
-    .answers{
+    .answers {
         padding: 5px;
         border-radius: 3px;
 
-        &.answer-accepted{
+        &.answer-accepted {
             background-color: $green;
             color: $white;
         }
-        &.answered{
+
+        &.answered {
             border: 1px solid $green;
             color: $green;
         }
-        &.unanswered{
+
+        &.unanswered {
             border: none;
+        }
+    }
+}
+
+.vote-controls {
+    min-width: 60px;
+    margin-right: 30px;
+    text-align: center;
+
+
+    span,
+    a {
+        display: block;
+        color: $gray-700;
+    }
+
+    span {
+        &.votes-count {
+            font-size: 22px;
+        }
+
+        &.favorites-count {
+            font-size: 12px;
+        }
+    }
+
+    a {
+        cursor: pointer;
+        color: $gray-600;
+
+        &.off,
+        &.off:hover {
+            color: $gray-500;
+        }
+
+        &.favorite {
+
+            &.favorited,
+            &.favorited:hover {
+                color: $warning;
+            }
+        }
+
+        &.best-answer{
+            color: $green;
         }
     }
 }
