@@ -79,4 +79,19 @@ class AnswerController extends Controller
         $answer->delete();
         return redirect()->route('questions.show',$question->slug)->with('success', 'You answer has been deleted successfully');
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Question  $question
+     * @param  \App\Answer  $answer
+     * @return \Illuminate\Http\Response
+     */
+    public function accept(Question $question, Answer $answer)
+    {
+        $this->authorize('accept', $answer);
+        $question->best_answer_id = $answer->id;
+        $question->save();
+        return redirect()->route('questions.show',$question->slug)->with('success', 'Answer has been marked as best answer successfully');
+    }
 }

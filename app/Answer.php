@@ -44,6 +44,11 @@ class Answer extends Model
 
     public function getStatusAttribute()
     {
-        return $this->id === $this->question->best_answer_id ? 'best-answer' : '';
+        return $this->is_best ? 'best-answer' : '';
+    }
+
+    public function getIsBestAttribute()
+    {
+        return $this->id === $this->question->best_answer_id;
     }
 }

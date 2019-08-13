@@ -17,10 +17,30 @@
                             <a href="" class="vote-down off" title="This answer is not useful">
                                 <i class="fas fa-caret-down fa-2x"></i>
                             </a>
-                            <a href="" class=" {{ $answer->status }} mt-2" title="The question owner accepted this as the best answer">
+                            @can('accept', $answer)
+                            <a href="#" 
+                                onclick="event.preventDefault(); document.getElementById('frm-mark-answer-{{$answer->id}}').submit()"
+                                class=" {{ $answer->status }} mt-2"
+                                title="Mark this as the best answer">
                                 <i class="fas fa-check fa-3x"></i>
                             </a>
-                            
+                            <form
+                                id="frm-mark-answer-{{$answer->id}}"
+                                action="{{route('questions.answers.accept', ['question' => $answer->question, 'answer' => $answer])}}"
+                                method="post">
+                                @csrf
+                                @method('PATCH')
+                            </form>
+
+                            @else
+                                @if($answer->is_best)
+                                    <a href="#" 
+                                        class=" {{ $answer->status }} mt-2"
+                                        title="The question owner accepted this as the best answer ">
+                                        <i class="fas fa-check fa-3x"></i>
+                                    </a>
+                                @endif
+                            @endcan
                         </div>
                         <div class="media-body">
                             {!! $answer->body_html !!}

@@ -22,3 +22,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('questions','QuestionController')->except('show');
 Route::get('questions/{slug}','QuestionController@show')->name('questions.show');
 Route::resource('questions.answers','AnswerController')->except(['show','index', 'create']);
+Route::patch('questions/{question}/answers/{answer}/accept','AnswerController@accept')->name('questions.answers.accept');
