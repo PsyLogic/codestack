@@ -18,10 +18,17 @@
                             <a href="" class="vote-down off" title="This question does not show any research effort; it is unclear or not useful">
                                 <i class="fas fa-caret-down fa-2x"></i>
                             </a>
-                            <a href="" class="favorite mt-2 favorited" title="mark as favorite question (click again to undo)">
+                            <a
+                                onclick="event.preventDefault(); document.getElementById('frm-favorite-{{ $question->id }}').submit();"
+                                class="favorite mt-2 {{ $question->favorite_status }}"
+                                title="mark as favorite question (click again to undo)"
+                            >
                                 <i class="fas fa-star" style="font-size: 1.3em;"></i>
-                                <span class="favorites-count">33</span>
+                                <span class="favorites-count">{{$question->favorites_count}}</span>
                             </a>
+                            <form id="frm-favorite-{{ $question->id }}" action="{{route('questions.favorite_status',$question)}}" method="post">
+                                @csrf
+                            </form>
                         </div>
                         <div class="media-body">
                             {!!$question->body_html!!}
