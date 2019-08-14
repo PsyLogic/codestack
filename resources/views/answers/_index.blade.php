@@ -10,23 +10,11 @@
                 @foreach ($answers as $answer)
                     <div class="media">
                         <div class="d-flex flex-column vote-controls">
-                            <a 
-                                onclick="event.preventDefault(); document.getElementById('frm-voteup-{{ $answer->id }}').submit();"
-                                class="vote-up" title="This answer is useful">
-                                <i class="fas fa-caret-up fa-2x"></i>
-                            </a>
-                            <form id="frm-voteup-{{ $answer->id }}" action="{{route('answers.vote',[$answer,1])}}" method="post">
-                                @csrf
-                            </form>
-                            <span class="votes-count">{{ $answer->countTotalVoters() }}</span>
-                            <a
-                                onclick="event.preventDefault(); document.getElementById('frm-votedown-{{ $answer->id }}').submit();"
-                                href="" class="vote-down" title="This answer is not useful">
-                                <i class="fas fa-caret-down fa-2x"></i>
-                            </a>
-                            <form id="frm-votedown-{{ $answer->id }}" action="{{route('answers.vote',[$answer,-1])}}" method="post">
-                                @csrf
-                            </form>
+                            @include('_parts._votes',[
+                                'model' => $answer,
+                                'label' => 'answer',
+                                'route' => 'answers.vote'
+                            ])
                             @can('accept', $answer)
                             <a href="#" 
                                 onclick="event.preventDefault(); document.getElementById('frm-mark-answer-{{$answer->id}}').submit()"
@@ -68,17 +56,10 @@
                                     @endcan
                                 </div>
                                 <div class="ml-auto">
-                                    <span class="text-muted">Answered {{ $answer->create_date }}</span>
-                                    <div class="media">
-                                        <a href="{{ $answer->user->url }}" class="pr-2">
-                                            <img src="{{ $answer->user->avatar }}" alt="{{ $answer->user->name }}">
-                                        </a>
-                                        <div class="media-body mt-1">
-                                            <a href="{{ $answer->user->url }}" class="pr-2">
-                                                {{ $answer->user->name }}
-                                            </a>
-                                        </div>
-                                    </div>
+                                    @include('_parts._author',[
+                                        'label' => 'Answered',
+                                        'model' => $answer
+                                    ])
                                 </div>
                             </div>
                         </div>

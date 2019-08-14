@@ -11,23 +11,11 @@
                     <hr>
                     <div class="media">
                         <div class="d-flex flex-column vote-controls">
-                            <a 
-                                onclick="event.preventDefault(); document.getElementById('frm-voteup-{{ $question->id }}').submit();"
-                                class="vote-up" title="This question shows research effort; it is useful and clear">
-                                <i class="fas fa-caret-up fa-2x"></i>
-                            </a>
-                            <form id="frm-voteup-{{ $question->id }}" action="{{route('questions.vote',[$question,1])}}" method="post">
-                                @csrf
-                            </form>
-                            <span class="votes-count">{{ $question->votes_count }}</span>
-                            <a
-                                onclick="event.preventDefault(); document.getElementById('frm-votedown-{{ $question->id }}').submit();"
-                                href="" class="vote-down" title="This question does not show any research effort; it is unclear or not useful">
-                                <i class="fas fa-caret-down fa-2x"></i>
-                            </a>
-                            <form id="frm-votedown-{{ $question->id }}" action="{{route('questions.vote',[$question,-1])}}" method="post">
-                                @csrf
-                            </form>
+                            @include('_parts._votes',[
+                                'model' => $question,
+                                'label' => 'question',
+                                'route' => 'questions.vote'
+                            ])
                             <a
                                 onclick="event.preventDefault(); document.getElementById('frm-favorite-{{ $question->id }}').submit();"
                                 class="favorite mt-2 {{ $question->favorite_status }}"
@@ -43,17 +31,10 @@
                         <div class="media-body">
                             {!!$question->body_html!!}
                             <div class="float-right">
-                                <span class="text-muted">Asked {{ $question->create_date }}</span>
-                                <div class="media">
-                                    <a href="{{ $question->user->url }}" class="pr-2">
-                                        <img src="{{ $question->user->avatar }}" alt="{{ $question->user->name }}">
-                                    </a>
-                                    <div class="media-body mt-1">
-                                        <a href="{{ $question->user->url }}" class="pr-2">
-                                            {{ $question->user->name }}
-                                        </a>
-                                    </div>
-                                </div>
+                                @include('_parts._author',[
+                                    'label' => 'Asked',
+                                    'model' => $question
+                                ])
                             </div>
                         </div>
                     </div>

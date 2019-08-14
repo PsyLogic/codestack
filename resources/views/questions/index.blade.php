@@ -43,8 +43,12 @@
                                         @endcan
                                     </div>
                                 </div>
-                                <p class="lead">
-                                    Asked by <a href="{{$question->user->url}}">{{$question->user->name}}</a> - {{ $question->create_date }}
+                                <p>
+                                    @include('_parts._author',[
+                                        'label' => 'Asked by',
+                                        'model' => $question,
+                                        'display' => 'inline'
+                                    ])
                                 </p>
                                 {{ str_limit($question->body, 250) }}
                             </div>
