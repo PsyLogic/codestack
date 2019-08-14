@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+
+    use Votable;
+
     /**
      * The attributes that are mass assignable.
      *

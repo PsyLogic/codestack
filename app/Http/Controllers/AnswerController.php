@@ -77,6 +77,7 @@ class AnswerController extends Controller
             return redirect()->route('questions.show',$question->slug)->with('error', 'You cannot remove the best answer');
         }
         $answer->delete();
+        $answer->votes()->detach();
         return redirect()->route('questions.show',$question->slug)->with('success', 'You answer has been deleted successfully');
     }
 
@@ -93,5 +94,17 @@ class AnswerController extends Controller
         $question->best_answer_id = $answer->id;
         $question->save();
         return redirect()->route('questions.show',$question->slug)->with('success', 'Answer has been marked as best answer successfully');
+    }
+
+    /**
+     * Vote the specified resource from storage.
+     *
+     * @param  \App\Answer  $answer
+     * @param  Int $vote
+     * @return \Illuminate\Http\Response
+     */
+    public function vote(Answer $answer, $vote){
+        auth()->user()->vote($answer, (int) $vote);
+        return back();
     }
 }

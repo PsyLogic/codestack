@@ -95,7 +95,20 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         $this->authorize('delete',$question);
+        $question->votes()->detach();
         $question->delete();
         return redirect()->route('questions.index')->with('success', 'Question deleted successfully');
+    }
+    
+    /**
+     * Vote the specified resource from storage.
+     *
+     * @param  \App\Question  $question
+     * @param  Int $vote
+     * @return \Illuminate\Http\Response
+     */
+    public function vote(Question $question, $vote){
+        auth()->user()->vote($question, (int) $vote);
+        return back();
     }
 }

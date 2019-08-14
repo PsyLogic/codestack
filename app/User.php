@@ -49,11 +49,33 @@ class User extends Authenticatable
         return $this->belongsToMany(Question::class, 'favorites')->withTimestamps();
     }
 
+    public function Qvotes(){
+        return $this->morphedByMany(Question::class,'votable');
+    }
+
+    public function Avotes(){
+        return $this->morphedByMany(Answer::class,'votable');
+    }
+
     public function getUrlAttribute(){
         return '#';
     }
 
     public function getAvatarAttribute(){
         return "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $this->email ) ) ) . "?s=36";
+    }
+
+    public function vote($model, $value = 1){
+        $relationship = null;
+        if($model instanceof Question)
+            $relationship = $this->Qvotes();
+        else if($model instanceof Answer)
+            $relationship = $this->Avotes();
+        
+            
+        $relationship->syncWithoutDetaching([$model->id => ['vote' => $value]]);
+
+        $model->votes_count = $model->countTotalVoters();
+        $model->save();
     }
 }

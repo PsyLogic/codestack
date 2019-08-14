@@ -24,3 +24,5 @@ Route::get('questions/{slug}','QuestionController@show')->name('questions.show')
 Route::resource('questions.answers','AnswerController')->except(['show','index', 'create']);
 Route::patch('questions/{question}/answers/{answer}/accept','AnswerController@accept')->name('questions.answers.accept');
 Route::post('questions/{question}/favorite_status','FavoriteController@changeFavoriteStatus')->name('questions.favorite_status');
+Route::post('questions/{question}/vote/{vote}','QuestionController@vote')->name('questions.vote');
+Route::post('answers/{answer}/vote/{vote}','AnswerController@vote')->name('answers.vote');

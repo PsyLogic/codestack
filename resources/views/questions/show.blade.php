@@ -11,13 +11,23 @@
                     <hr>
                     <div class="media">
                         <div class="d-flex flex-column vote-controls">
-                            <a href="" class="vote-up off" title="This question shows research effort; it is useful and clear">
+                            <a 
+                                onclick="event.preventDefault(); document.getElementById('frm-voteup-{{ $question->id }}').submit();"
+                                class="vote-up" title="This question shows research effort; it is useful and clear">
                                 <i class="fas fa-caret-up fa-2x"></i>
                             </a>
-                            <span class="votes-count">344</span>
-                            <a href="" class="vote-down off" title="This question does not show any research effort; it is unclear or not useful">
+                            <form id="frm-voteup-{{ $question->id }}" action="{{route('questions.vote',[$question,1])}}" method="post">
+                                @csrf
+                            </form>
+                            <span class="votes-count">{{ $question->votes_count }}</span>
+                            <a
+                                onclick="event.preventDefault(); document.getElementById('frm-votedown-{{ $question->id }}').submit();"
+                                href="" class="vote-down" title="This question does not show any research effort; it is unclear or not useful">
                                 <i class="fas fa-caret-down fa-2x"></i>
                             </a>
+                            <form id="frm-votedown-{{ $question->id }}" action="{{route('questions.vote',[$question,-1])}}" method="post">
+                                @csrf
+                            </form>
                             <a
                                 onclick="event.preventDefault(); document.getElementById('frm-favorite-{{ $question->id }}').submit();"
                                 class="favorite mt-2 {{ $question->favorite_status }}"
