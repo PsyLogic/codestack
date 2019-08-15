@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
+use App\Http\Requests\AnswerRequest;
 use Illuminate\Http\Request;
 use App\Question;
 
@@ -16,15 +17,17 @@ class AnswerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Question  $question
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\AnswerRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Question $question, Request $request)
+    public function store(Question $question, AnswerRequest $request)
     {
-        $question->answers()->create(
-            $request->validate(['body' => 'required'])
-            + ['user_id' => \Auth::id()]
-        );
+        $question
+            ->answers()
+            ->create([
+                'body' => $request->body,
+                'user_id' => \Auth::id()
+            ]);
 
         return back()->with('success', 'You answer has been posted successfully');
     }
@@ -48,18 +51,18 @@ class AnswerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\AnswerRequest  $request
      * @param  \App\Question  $question
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question, Answer $answer)
+    public function update(AnswerRequest $request, Question $question, Answer $answer)
     {
         $this->authorize('update', $answer);
         if( $answer->id === $question->best_answer_id ){
             return redirect()->route('questions.show',$question->slug)->with('error', 'You cannot modify the best answer');
         }
-        $answer->update($request->validate(['body' => 'required']));
+        $answer->update(['body' => $request->body]);
         return redirect()->route('questions.show',$question->slug)->with('success', 'You answer has been updated successfully');
     }
 

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Waavi\Sanitizer\Laravel\SanitizesInput;
 
-class QuestionRequest extends FormRequest
+class AnswerRequest extends FormRequest
 {
     use SanitizesInput;
     /**
@@ -26,7 +26,6 @@ class QuestionRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:200',
             'body' => 'required',
         ];
     }
@@ -34,7 +33,6 @@ class QuestionRequest extends FormRequest
     public function filters()
     {
         return [
-            'title'  => 'trim|escape|strip_tags',
             'body' => 'escape|strip_tags',
         ];
     }
